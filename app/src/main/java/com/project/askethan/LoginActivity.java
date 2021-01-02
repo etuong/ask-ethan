@@ -8,17 +8,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    private TextView register, forgotp, info;
+    private TextView signupText, forgotPasswordText, attemptText;
     private ImageButton btnLogin;
     private EditText email, password;
     private int counter = 5;
@@ -30,108 +26,66 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        register = findViewById(R.id.signup);
-        forgotp = findViewById(R.id.forgot);
-        email = findViewById(R.id.logemail);
-        password = findViewById(R.id.logpassword);
-        info = findViewById(R.id.tvinfo);
-        btnLogin = findViewById(R.id.btnLogin);
-        info.setText("Login Attempts remaining: 5");
-        firebaseAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(this);
+        this.signupText = findViewById(R.id.signup);
+        this.forgotPasswordText = findViewById(R.id.forgot);
+        this.email = findViewById(R.id.logemail);
+        this.password = findViewById(R.id.logpassword);
+        this.attemptText = findViewById(R.id.tvinfo);
+        this.btnLogin = findViewById(R.id.btnLogin);
+        this.attemptText.setText("Login Attempts remaining: 5");
+        this.firebaseAuth = FirebaseAuth.getInstance();
+        this.progressDialog = new ProgressDialog(this);
 
-    }
-
-    public void validate(String userName, String userPassword) {
-        progressDialog.setMessage("Your Account has been successfully Verified through Email");
-        progressDialog.show();
-        if (validate()) {
-
-            firebaseAuth.signInWithEmailAndPassword(userName, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        progressDialog.dismiss();
-                        //  Toast.makeText(act2.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(act2.this, MainFeed.class));
-                        checkEmailVerification();
-                    } else {
-                        progressDialog.dismiss();
-
-                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                        counter--;
-
-                        info.setText("Login Attempts remaining:" + String.valueOf(counter));
-
-                        if (counter == 0) {
-                            btnLogin.setEnabled(false);
-                        }
-                    }
-                }
-            });
-        }
-
-
-       /* if((userName.equals("Admin")&&(userPassword.equals("1234")))) {
-            Intent mainFeedIntent = new Intent(act2.this, MainFeed.class);
-            startActivity(mainFeedIntent);
-        }else{
-
-            counter--;
-
-            info.setText("Login Attempts remaining:" + String.valueOf(counter));
-
-            if(counter==0)
-            {
-                btnLogin.setEnabled(false);
-            }
-
-        }*/
-
-    }
-
-    private Boolean validate() {
-        String val_email = email.getText().toString();
-        String val_password = password.getText().toString();
-        if (val_email.isEmpty() || val_password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please fill out the fields", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        register.setOnClickListener(view -> {
+        this.signupText.setOnClickListener(view -> {
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
         });
 
-
-        forgotp.setOnClickListener(view -> {
+        this.forgotPasswordText.setOnClickListener(view -> {
             Intent i = new Intent(LoginActivity.this, PasswordActivity.class);
             startActivity(i);
         });
 
+        this.btnLogin.setOnClickListener(view -> process(email.getText().toString().trim(), password.getText().toString().trim()));
+    }
 
-        btnLogin.setOnClickListener(view -> validate(email.getText().toString(), password.getText().toString()));
+    public void process(String userEmail, String userPassword) {
+        if (userEmail.isEmpty() || userPassword.isEmpty()) {
+            Toast.makeText(LoginActivity.this, "Please fill out the fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        this.progressDialog.setMessage("Your account has been successfully verified through email");
+        this.progressDialog.show();
+        this.firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                this.progressDialog.dismiss();
+                checkEmailVerification();
+            } else {
+                this.progressDialog.dismiss();
+
+                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                this.counter--;
+
+                this.attemptText.setText("Login Attempts remaining: " + counter);
+
+                if (this.counter == 0) {
+                    this.btnLogin.setEnabled(false);
+                }
+            }
+        });
     }
 
     private void checkEmailVerification() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        Boolean email = firebaseUser.isEmailVerified();
+        FirebaseUser firebaseUser = this.firebaseAuth.getCurrentUser();
 
-        if (email) {
+        if (firebaseUser.isEmailVerified()) {
             finish();
             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, FeedActivity.class));
         } else {
-            Toast.makeText(LoginActivity.this, "Please verify by clicking link sent to your mail", Toast.LENGTH_LONG).show();
-            firebaseAuth.signOut();
+            Toast.makeText(LoginActivity.this, "Please verify by checking your email", Toast.LENGTH_LONG).show();
+            this.firebaseAuth.signOut();
         }
     }
 }
