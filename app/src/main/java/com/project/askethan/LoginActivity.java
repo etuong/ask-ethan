@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         if (email) {
             finish();
             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainFeedActivity.class));
+            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
         } else {
             Toast.makeText(LoginActivity.this, "Please verify by clicking link sent to your mail", Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();

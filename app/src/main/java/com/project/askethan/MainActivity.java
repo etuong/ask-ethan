@@ -16,140 +16,111 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.askethan.adapters.SliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    final int numOfPages = 3;
-
-    private ViewPager mMainPage;
-    private LinearLayout mDotContainer;
+    private ViewPager mainPage;
+    private LinearLayout horzDotsLayout;
     private SliderAdapter sliderAdapter;
-    private TextView[] mDots;
-    private Button mNext;
-    private Button mBack;
-    private Button mSignIn;
-    private int mCurrentSliderPage = 0;
-
+    private Button nextBtn;
+    private Button backBtn;
+    private Button signInBtn;
+    private int currentSliderNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // User has already logged in, declare intent to activate the main feed
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent mainFeed = new Intent(MainActivity.this, MainFeedActivity.class);
+            Intent mainFeed = new Intent(MainActivity.this, FeedActivity.class);
             startActivity(mainFeed);
         }
 
-        mMainPage = findViewById(R.id.mainViewPager);
-        mDotContainer = findViewById(R.id.sliderDots);
-        mNext = findViewById(R.id.next);
-        mBack = findViewById(R.id.back);
-        mSignIn = findViewById(R.id.signin);
+        this.mainPage = findViewById(R.id.mainViewPager);
+        this.horzDotsLayout = findViewById(R.id.sliderDots);
+        this.nextBtn = findViewById(R.id.next);
+        this.backBtn = findViewById(R.id.back);
+        this.signInBtn = findViewById(R.id.signin);
 
-        sliderAdapter = new SliderAdapter(this);
-        mMainPage.setAdapter(sliderAdapter);
-        // adding the slider dots
-        addDots(0);
-        // setting the event listener for the page slider
-        mMainPage.addOnPageChangeListener(viewListener);
+        this.sliderAdapter = new SliderAdapter(this);
+        this.mainPage.setAdapter(sliderAdapter);
 
+        renderHorzDots(0);
+
+        this.mainPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                renderHorzDots(position);
+                currentSliderNumber = position;
+
+                if (currentSliderNumber == 0) {
+                    setButtonEnability(nextBtn, true);
+                    setButtonEnability(backBtn, false);
+                } else if (currentSliderNumber == sliderAdapter.getCount() - 1) {
+                    setButtonEnability(nextBtn, false);
+                    setButtonEnability(backBtn, true);
+                    setButtonEnability(signInBtn, true);
+                } else {
+                    setButtonEnability(nextBtn, true);
+                    setButtonEnability(backBtn, true);
+                    setButtonEnability(signInBtn, false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // setting the event listeners for the next and back buttons
-        mNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCurrentSliderPage + 1 < numOfPages)
-                    mMainPage.setCurrentItem(mCurrentSliderPage + 1);
-
-            }
+        this.nextBtn.setOnClickListener(view -> {
+            if (this.currentSliderNumber + 1 < this.sliderAdapter.getCount())
+                this.mainPage.setCurrentItem(this.currentSliderNumber + 1);
         });
 
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCurrentSliderPage - 1 >= 0)
-                    mMainPage.setCurrentItem(mCurrentSliderPage - 1);
-
-            }
+        this.backBtn.setOnClickListener(view -> {
+            if (this.currentSliderNumber - 1 >= 0)
+                this.mainPage.setCurrentItem(this.currentSliderNumber - 1);
         });
 
-        mSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent loginIntent = new Intent(MainActivity.this, act2.class);
-                startActivity(loginIntent);
-            }
+        this.signInBtn.setOnClickListener(view -> {
+            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
         });
-
     }
 
-    // adding the dots
-    public void addDots(int position) {
-        mDots = new TextView[3];
-        mDotContainer.removeAllViews();
+    private void setButtonEnability(Button btn, boolean enabled) {
+        if (enabled) {
+            btn.setVisibility(View.VISIBLE);
+            btn.setEnabled(true);
+        } else {
+            btn.setVisibility(View.INVISIBLE);
+            btn.setEnabled(false);
+        }
+    }
 
-        for (int i = 0; i < numOfPages; i++) {
-            mDots[i] = new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226;"));
-            mDots[i].setTextSize(35);
-            mDots[i].setTextColor(Color.WHITE);
+    private void renderHorzDots(int position) {
+        TextView[] horzDots = new TextView[3];
+        this.horzDotsLayout.removeAllViews();
 
-            mDotContainer.addView(mDots[i]);
+        for (int i = 0; i < this.sliderAdapter.getCount(); i++) {
+            horzDots[i] = new TextView(this);
+            horzDots[i].setText(Html.fromHtml("&#8226;"));
+            horzDots[i].setTextSize(35);
+            horzDots[i].setTextColor(Color.WHITE);
+
+            this.horzDotsLayout.addView(horzDots[i]);
         }
 
         if (position >= 0) {
-            mDots[position].setTextColor(Color.LTGRAY);
+            horzDots[position].setTextColor(Color.LTGRAY);
         }
     }
-
-    // adding a listener for slider
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            addDots(position);
-            mCurrentSliderPage = position;
-
-            if (mCurrentSliderPage == 0) {
-                mNext.setVisibility(View.VISIBLE);
-                mNext.setEnabled(true);
-
-                mBack.setVisibility(View.INVISIBLE);
-                mBack.setEnabled(false);
-            } else {
-                mBack.setVisibility(View.VISIBLE);
-                mBack.setEnabled(true);
-            }
-
-            if (mCurrentSliderPage == numOfPages - 1) {
-                mNext.setVisibility(View.INVISIBLE);
-                mNext.setEnabled(false);
-
-                mBack.setVisibility(View.VISIBLE);
-                mBack.setEnabled(true);
-
-                mSignIn.setVisibility(View.VISIBLE);
-                mSignIn.setEnabled(true);
-            } else {
-                mNext.setVisibility(View.VISIBLE);
-                mNext.setEnabled(true);
-
-                mSignIn.setVisibility(View.INVISIBLE);
-                mSignIn.setEnabled(false);
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
-
 }

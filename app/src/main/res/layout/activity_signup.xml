@@ -38,7 +38,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/com_facebook_auth_dialog_cancel_background"
-        android:drawableLeft="@drawable/ic_action_name"
+        android:drawableLeft="@drawable/ic_action_white_name"
         android:ems="10"
         android:hint="@string/enter_name"
         android:inputType="textPersonName"

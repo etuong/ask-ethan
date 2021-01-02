@@ -14,9 +14,12 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.project.askethan.R;
 
 public class SliderAdapter extends PagerAdapter {
-
     private Context context;
     private LayoutInflater layoutInflater;
+    private static int numberOfSlides = 3;
+    private SpannableString[] slideHeadings = new SpannableString[numberOfSlides];
+    private String[] slideDescription = new String[numberOfSlides];
+    private int[] slide_images = new int[numberOfSlides];
 
     public SliderAdapter(Context context) {
         this.context = context;
@@ -28,21 +31,15 @@ public class SliderAdapter extends PagerAdapter {
         slideDescription[0] = "Ethan1";
         slideDescription[1] = "Ethan2";
         slideDescription[2] = "Ethan3";
+
+        slide_images[0] = R.drawable.whatisthis;
+        slide_images[1] = R.drawable.people;
+        slide_images[2] = R.drawable.gotaquestion;
     }
-
-    private int[] slide_images = {
-            R.drawable.whatisthis,
-            R.drawable.people,
-            R.drawable.gotaquestion
-    };
-
-    private SpannableString[] slideHeadings = new SpannableString[3];
-    private String[] slideDescription = new String[3];
-
 
     @Override
     public int getCount() {
-        return slideHeadings.length;
+        return numberOfSlides;
     }
 
     @Override
@@ -53,7 +50,6 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slider_content_layout, container, false);
 
