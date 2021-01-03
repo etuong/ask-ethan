@@ -3,6 +3,7 @@ package com.project.askethan;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView signupText, forgotPasswordText, attemptText;
-    private ImageButton btnLogin;
+    private Button btnLogin;
     private EditText email, password;
     private int counter = 5;
     private ProgressDialog progressDialog;

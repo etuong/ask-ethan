@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:clickable="true"
-        android:ems="40"
+        android:textSize="40sp"
         android:text="@string/app_name"
         android:textColor="@color/white_smoke"
         app:layout_constraintBottom_toBottomOf="@+id/logemail"
@@ -72,18 +72,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.527" />
 
-    <ImageButton
+    <Button
         android:id="@+id/btnLogin"
         android:layout_width="148dp"
         android:layout_height="45dp"
         android:layout_margin="8dp"
-        android:adjustViewBounds="true"
-        android:baselineAlignBottom="false"
-        android:cropToPadding="false"
-        android:layerType="none"
-        android:scaleType="centerCrop"
-        android:scrollbarSize="6dp"
-        android:scrollbarStyle="insideInset"
+        android:background="@drawable/rounded_corner_button"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (position >= 0) {
-            horzDots[position].setTextColor(Color.LTGRAY);
+            horzDots[position].setTextColor(Color.GRAY);
         }
     }
 }

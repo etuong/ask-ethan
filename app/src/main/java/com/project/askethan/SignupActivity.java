@@ -2,6 +2,7 @@ package com.project.askethan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.project.askethan.model.User;
 
 public class SignupActivity extends AppCompatActivity {
+    private static int PASSWORD_MIN_NUM = 4;
     private TextView signinText;
     private Button registerBtn;
     private CheckBox checkBox;
@@ -64,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
                         sendEmail();
 
                     } else {
-                        Toast.makeText(SignupActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -72,33 +74,32 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean validateUser(String user_name, String user_email, String user_password, String user_phone) {
-        if (user_name.isEmpty() || user_email.isEmpty() ||
-                user_password.isEmpty() || user_phone.isEmpty()) {
+        if (TextUtils.isEmpty(user_name) || TextUtils.isEmpty(user_email) || TextUtils.isEmpty(user_password) || TextUtils.isEmpty(user_phone)) {
             Toast.makeText(SignupActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         boolean isValidated = true;
 
-        if (user_email.matches("^(.+)@(.+)$")) {
+        if (!user_email.matches("^(.+)@(.+)$")) {
             this.emailText.setError("Please enter a valid email address");
             this.emailText.requestFocus();
             isValidated = false;
         }
 
-        if (user_password.length() < 6) {
-            this.passwordText.setError("Password should be at least 6 characters long");
+        if (user_password.length() < PASSWORD_MIN_NUM) {
+            this.passwordText.setError(String.format("Password should be at least %d numbers long", PASSWORD_MIN_NUM));
             this.passwordText.requestFocus();
             isValidated = false;
         }
 
-        if (user_phone.matches("[0-9]+") && user_phone.length() != 7) {
+        if (!user_phone.matches("[0-9]+") || user_phone.length() < 7) {
             this.phoneText.setError("Please enter a valid phone number");
             this.phoneText.requestFocus();
             isValidated = false;
         }
 
-        if (checkBox.isChecked() == false) {
+        if (!checkBox.isChecked()) {
             this.checkBox.setError("Please agree to the terms and conditions");
             this.checkBox.requestFocus();
             isValidated = false;
@@ -112,7 +113,6 @@ public class SignupActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
             firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
-
                 if (task.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Successfully registered,Verification email sent", Toast.LENGTH_LONG).show();
                     this.firebaseAuth.signOut();
