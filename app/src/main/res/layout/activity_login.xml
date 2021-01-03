@@ -85,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.68" />
+        app:layout_constraintVertical_bias="0.65" />
 
     <TextView
         android:id="@+id/tvinfo"
@@ -93,11 +93,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textColor="@color/white_smoke"
+        android:text="Login Attempts remaining: 5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintVertical_bias="0.71" />
 
     <TextView
         android:id="@+id/signup"

@@ -3,19 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navBtnHome"
+        android:id="@+id/navigation_feed"
         android:icon="@drawable/nav_home"
-        android:title="@string/nav_home" />
+        android:title="@string/nav_feed" />
     <item
-        android:id="@+id/navBtnAsk"
+        android:id="@+id/navigation_ask"
         android:icon="@drawable/nav_ask"
         android:title="@string/nav_question" />
     <item
-        android:id="@+id/navBtnContact"
+        android:id="@+id/navigation_contact"
         android:icon="@drawable/nav_feedback"
         android:title="@string/nav_contact" />
     <item
-        android:id="@+id/navBtnProfile"
-        android:icon="@drawable/nav_user"
-        android:title="@string/nav_profile" />
+        android:id="@+id/navigation_setting"
+        android:icon="@drawable/nav_settings"
+        android:title="@string/nav_settings" />
 </menu>

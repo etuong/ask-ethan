@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         // User has already logged in, declare intent to activate the main feed
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent mainFeed = new Intent(MainActivity.this, FeedActivity.class);
+            Intent mainFeed = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(mainFeed);
         }
 

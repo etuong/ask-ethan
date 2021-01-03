@@ -17,11 +17,19 @@
     <string name="already_user">Already a user? Click <u><i>here</i></u> to sign in.</string>
     <string name="conditions">Agree to terms and conditions</string>
     <string name="password_reset">Enter your email address to reset your password.</string>
+    <string name="ask_title_hint">Give this question a title</string>
+    <string name="ask_question_hint">Ask your question!</string>
+
+    <!-- Pages -->
+    <string name="home_heading">Latest Questions</string>
+    <string name="ask_heading">Ask Ethan a Question</string>
+    <string name="settings_heading">Settings</string>
 
     <!-- Navigation -->
     <string name="nav_profile">Profile</string>
     <string name="nav_home">Home</string>
+    <string name="nav_feed">Feed</string>
     <string name="nav_question">Ask</string>
-    <string name="nav_contact">Contact Us</string>
+    <string name="nav_contact">Contact Ethan</string>
     <string name="nav_settings">Settings</string>
 </resources>

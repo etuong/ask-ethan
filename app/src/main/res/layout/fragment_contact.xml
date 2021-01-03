@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.FeedFragment"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/heading_home"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact"
+            android:textSize="28sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            />
+<!--
+        <ListView
+            android:id="@+id/question_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#d1d2d1"
+            android:dividerHeight="2dp">
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/home_heading"
+            android:textSize="28sp" />
+     />-->
+
+    </LinearLayout>
+
+</FrameLayout>

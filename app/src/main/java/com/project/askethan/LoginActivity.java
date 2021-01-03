@@ -1,11 +1,9 @@
 package com.project.askethan;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +14,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView signupText, forgotPasswordText, attemptText;
-    private Button btnLogin;
-    private EditText email, password;
+    private Button loginBtn;
+    private EditText emailEdit, passwordEdit;
     private int counter = 5;
-    private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -29,13 +26,12 @@ public class LoginActivity extends AppCompatActivity {
 
         this.signupText = findViewById(R.id.signup);
         this.forgotPasswordText = findViewById(R.id.forgot);
-        this.email = findViewById(R.id.logemail);
-        this.password = findViewById(R.id.logpassword);
+        this.emailEdit = findViewById(R.id.logemail);
+        this.passwordEdit = findViewById(R.id.logpassword);
         this.attemptText = findViewById(R.id.tvinfo);
-        this.btnLogin = findViewById(R.id.btnLogin);
+        this.loginBtn = findViewById(R.id.btnLogin);
         this.attemptText.setText("Login Attempts remaining: 5");
         this.firebaseAuth = FirebaseAuth.getInstance();
-        this.progressDialog = new ProgressDialog(this);
 
         this.signupText.setOnClickListener(view -> {
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
@@ -47,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        this.btnLogin.setOnClickListener(view -> process(email.getText().toString().trim(), password.getText().toString().trim()));
+        this.loginBtn.setOnClickListener(view -> process(this.emailEdit.getText().toString().trim(), this.passwordEdit.getText().toString().trim()));
     }
 
     public void process(String userEmail, String userPassword) {
@@ -56,22 +52,17 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        this.progressDialog.setMessage("Your account has been successfully verified through email");
-        this.progressDialog.show();
         this.firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                this.progressDialog.dismiss();
                 checkEmailVerification();
             } else {
-                this.progressDialog.dismiss();
-
-                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 this.counter--;
 
                 this.attemptText.setText("Login Attempts remaining: " + counter);
 
                 if (this.counter == 0) {
-                    this.btnLogin.setEnabled(false);
+                    this.loginBtn.setEnabled(false);
                 }
             }
         });
@@ -83,9 +74,9 @@ public class LoginActivity extends AppCompatActivity {
         if (firebaseUser.isEmailVerified()) {
             finish();
             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         } else {
-            Toast.makeText(LoginActivity.this, "Please verify by checking your email", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please first verify your account by checking your email", Toast.LENGTH_LONG).show();
             this.firebaseAuth.signOut();
         }
     }

@@ -17,11 +17,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.project.askethan.model.User;
 
 public class SignupActivity extends AppCompatActivity {
-    private static int PASSWORD_MIN_NUM = 4;
+    private static int PASSWORD_MIN_NUM = 6;
     private TextView signinText;
     private Button registerBtn;
     private CheckBox checkBox;
-    private EditText nameText, emailText, passwordText, phoneText;
+    private EditText nameEdit, emailEdit, passwordEdit, phoneEdit;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -31,10 +31,10 @@ public class SignupActivity extends AppCompatActivity {
 
         this.signinText = findViewById(R.id.signin);
         this.checkBox = findViewById(R.id.checkBox);
-        this.nameText = findViewById(R.id.nametxt);
-        this.emailText = findViewById(R.id.emailtxt);
-        this.passwordText = findViewById(R.id.passwordtxt);
-        this.phoneText = findViewById(R.id.etphone);
+        this.nameEdit = findViewById(R.id.nametxt);
+        this.emailEdit = findViewById(R.id.emailtxt);
+        this.passwordEdit = findViewById(R.id.passwordtxt);
+        this.phoneEdit = findViewById(R.id.etphone);
         this.registerBtn = findViewById(R.id.signupbtn);
 
         this.signinText.setOnClickListener(view -> {
@@ -45,10 +45,10 @@ public class SignupActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         registerBtn.setOnClickListener(view -> {
-            final String user_name = nameText.getText().toString().trim();
-            final String user_email = emailText.getText().toString().trim();
-            final String user_password = passwordText.getText().toString().trim();
-            final String user_phone = phoneText.getText().toString().trim();
+            final String user_name = nameEdit.getText().toString().trim();
+            final String user_email = emailEdit.getText().toString().trim();
+            final String user_password = passwordEdit.getText().toString().trim();
+            final String user_phone = phoneEdit.getText().toString().trim();
 
             if (validateUser(user_name, user_email, user_password, user_phone)) {
                 this.firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(task -> {
@@ -66,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
                         sendEmail();
 
                     } else {
-                        Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -82,20 +82,20 @@ public class SignupActivity extends AppCompatActivity {
         boolean isValidated = true;
 
         if (!user_email.matches("^(.+)@(.+)$")) {
-            this.emailText.setError("Please enter a valid email address");
-            this.emailText.requestFocus();
+            this.emailEdit.setError("Please enter a valid email address");
+            this.emailEdit.requestFocus();
             isValidated = false;
         }
 
         if (user_password.length() < PASSWORD_MIN_NUM) {
-            this.passwordText.setError(String.format("Password should be at least %d numbers long", PASSWORD_MIN_NUM));
-            this.passwordText.requestFocus();
+            this.passwordEdit.setError(String.format("Password should be at least %d characters long", PASSWORD_MIN_NUM));
+            this.passwordEdit.requestFocus();
             isValidated = false;
         }
 
         if (!user_phone.matches("[0-9]+") || user_phone.length() < 7) {
-            this.phoneText.setError("Please enter a valid phone number");
-            this.phoneText.requestFocus();
+            this.phoneEdit.setError("Please enter a valid phone number");
+            this.phoneEdit.requestFocus();
             isValidated = false;
         }
 
@@ -114,11 +114,11 @@ public class SignupActivity extends AppCompatActivity {
         if (firebaseUser != null) {
             firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(SignupActivity.this, "Successfully registered,Verification email sent", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignupActivity.this, "Successfully registered! Verification email sent", Toast.LENGTH_LONG).show();
                     this.firebaseAuth.signOut();
                     startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                 } else {
-                    Toast.makeText(SignupActivity.this, "Verification email hasnt been sent", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
