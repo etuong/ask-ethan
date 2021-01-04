@@ -10,8 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
+import com.project.askethan.utilities.FirebaseModule;
 
 public class PasswordActivity extends AppCompatActivity {
     @Override
@@ -21,7 +20,7 @@ public class PasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_password);
         EditText emailText = findViewById(R.id.etcheckemail);
         Button emailSendBtn = findViewById(R.id.btnemailsend);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseModule.getAuth();
 
         emailSendBtn.setOnClickListener(view -> {
 

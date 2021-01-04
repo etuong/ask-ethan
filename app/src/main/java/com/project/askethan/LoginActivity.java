@@ -10,15 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.project.askethan.utilities.FirebaseModule;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView signupText, forgotPasswordText, attemptText;
     private Button loginBtn;
     private EditText emailEdit, passwordEdit;
     private int counter = 5;
-    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
         this.attemptText = findViewById(R.id.tvinfo);
         this.loginBtn = findViewById(R.id.btnLogin);
         this.attemptText.setText("Login Attempts remaining: 5");
-        this.firebaseAuth = FirebaseAuth.getInstance();
 
         this.signupText.setOnClickListener(view -> {
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
@@ -53,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        this.firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(task -> {
+        FirebaseModule.getAuth().signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 checkEmailVerification();
             } else {
@@ -70,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkEmailVerification() {
-        FirebaseUser firebaseUser = this.firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseModule.getCurrentUser();
 
         if (firebaseUser.isEmailVerified()) {
             finish();
@@ -78,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         } else {
             Toast.makeText(LoginActivity.this, "Please first verify your account by checking your email", Toast.LENGTH_LONG).show();
-            this.firebaseAuth.signOut();
+            FirebaseModule.signOut();
         }
     }
 }

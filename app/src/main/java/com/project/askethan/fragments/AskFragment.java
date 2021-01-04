@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.R;
 import com.project.askethan.model.Question;
+import com.project.askethan.utilities.FirebaseModule;
 
 public class AskFragment extends Fragment {
     private EditText titleEdit, questionEdit;
@@ -49,15 +50,14 @@ public class AskFragment extends Fragment {
                 return;
             }
 
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference dbRef = database.getReference("questions");
+            DatabaseReference dbRef = FirebaseModule.getQuestionDatabaseReference();
 
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     long newId = dataSnapshot.getChildrenCount();
 
-                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    FirebaseUser currentUser = FirebaseModule.getCurrentUser();
 
                     Question question = Question.builder()
                             .id((int) newId)

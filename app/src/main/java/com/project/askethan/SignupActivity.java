@@ -11,11 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
 import com.project.askethan.model.User;
+import com.project.askethan.utilities.FirebaseModule;
 
 public class SignupActivity extends AppCompatActivity {
     private static int PASSWORD_MIN_NUM = 6;
@@ -23,7 +22,6 @@ public class SignupActivity extends AppCompatActivity {
     private Button registerBtn;
     private CheckBox checkBox;
     private EditText nameEdit, emailEdit, passwordEdit, phoneEdit;
-    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +41,6 @@ public class SignupActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         registerBtn.setOnClickListener(view -> {
             final String user_name = nameEdit.getText().toString().trim();
             final String user_email = emailEdit.getText().toString().trim();
@@ -52,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
             final String user_phone = phoneEdit.getText().toString().trim();
 
             if (validateUser(user_name, user_email, user_password, user_phone)) {
-                this.firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(task -> {
+                FirebaseModule.getAuth().createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         User user = User.builder()
                                 .name(user_name)
@@ -60,15 +56,15 @@ public class SignupActivity extends AppCompatActivity {
                                 .phone(user_phone)
                                 .build();
 
-                        FirebaseDatabase.getInstance().getReference("users")
-                                .child(firebaseAuth.getCurrentUser().getUid())
+                        FirebaseUser fbUser = FirebaseModule.getCurrentUser();
+
+                        FirebaseModule.getUserDatabaseReference()
+                                .child(fbUser.getUid())
                                 .setValue(user);
 
-                        FirebaseUser fbUser = firebaseAuth.getCurrentUser();
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(user_name)
                                 .build();
-
                         fbUser.updateProfile(profileUpdates);
 
                         sendEmail();
@@ -117,13 +113,13 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void sendEmail() {
-        FirebaseUser firebaseUser = this.firebaseAuth.getCurrentUser();
+        FirebaseUser fbUser = FirebaseModule.getCurrentUser();
 
-        if (firebaseUser != null) {
-            firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
+        if (fbUser != null) {
+            fbUser.sendEmailVerification().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Successfully registered! Verification email sent", Toast.LENGTH_LONG).show();
-                    this.firebaseAuth.signOut();
+                    FirebaseModule.signOut();
                     startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                 } else {
                     Toast.makeText(SignupActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
