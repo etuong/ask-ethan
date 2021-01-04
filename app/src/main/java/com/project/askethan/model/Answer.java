@@ -11,11 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Question {
+public class Answer {
     private int id;
-    private int views;
-    private String title;
-    private String email;
+    private String description;
     private String author;
-    private String question;
 }

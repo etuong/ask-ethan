@@ -61,7 +61,8 @@ public class AskFragment extends Fragment {
 
                     Question question = Question.builder()
                             .id((int) newId)
-                            .author(currentUser.getEmail())
+                            .author(currentUser.getDisplayName())
+                            .email(currentUser.getEmail())
                             .title(titleEdit.getText().toString())
                             .question(AskFragment.this.questionEdit.getText().toString())
                             .build();

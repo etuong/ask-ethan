@@ -107,10 +107,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void renderHorzDots(int position) {
-        TextView[] horzDots = new TextView[3];
+        int numberOfSlides = this.sliderAdapter.getCount();
+        TextView[] horzDots = new TextView[numberOfSlides];
         this.horzDotsLayout.removeAllViews();
 
-        for (int i = 0; i < this.sliderAdapter.getCount(); i++) {
+        for (int i = 0; i < numberOfSlides; i++) {
             horzDots[i] = new TextView(this);
             horzDots[i].setText(Html.fromHtml("&#8226;"));
             horzDots[i].setTextSize(35);

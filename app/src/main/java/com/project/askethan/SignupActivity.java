@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.askethan.model.User;
 
@@ -60,8 +61,15 @@ public class SignupActivity extends AppCompatActivity {
                                 .build();
 
                         FirebaseDatabase.getInstance().getReference("users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(firebaseAuth.getCurrentUser().getUid())
                                 .setValue(user);
+
+                        FirebaseUser fbUser = firebaseAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(user_name)
+                                .build();
+
+                        fbUser.updateProfile(profileUpdates);
 
                         sendEmail();
 

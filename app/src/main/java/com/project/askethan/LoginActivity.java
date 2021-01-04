@@ -2,6 +2,7 @@ package com.project.askethan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void process(String userEmail, String userPassword) {
-        if (userEmail.isEmpty() || userPassword.isEmpty()) {
+        if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPassword)) {
             Toast.makeText(LoginActivity.this, "Please fill out the fields", Toast.LENGTH_SHORT).show();
             return;
         }

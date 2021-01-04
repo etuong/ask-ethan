@@ -2,6 +2,7 @@ package com.project.askethan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 public class PasswordActivity extends AppCompatActivity {
     @Override
@@ -24,7 +27,7 @@ public class PasswordActivity extends AppCompatActivity {
 
             String user_email = emailText.getText().toString().trim();
 
-            if (user_email.isEmpty()) {
+            if (TextUtils.isEmpty(user_email)) {
                 Toast.makeText(PasswordActivity.this, "Please enter your registered email address", Toast.LENGTH_SHORT).show();
             } else {
                 firebaseAuth.sendPasswordResetEmail(user_email).addOnCompleteListener(task -> {
