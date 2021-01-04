@@ -19,7 +19,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="@string/home_heading"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <ListView
             android:id="@+id/question_listview"
