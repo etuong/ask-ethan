@@ -18,11 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".PasswordActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".AnswerActivity" />
+        <activity android:name=".ProfileActivity" />
     </application>
 
     <supports-screens
