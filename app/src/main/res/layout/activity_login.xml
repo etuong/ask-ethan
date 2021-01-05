@@ -22,7 +22,7 @@
 
     <EditText
         android:id="@+id/logemail"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_margin="8dp"
         android:drawableLeft="@drawable/ic_action_white_email"
@@ -40,7 +40,7 @@
 
     <EditText
         android:id="@+id/logpassword"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_margin="8dp"
         android:drawableLeft="@drawable/ic_action_white_lock"

@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.AnswerActivity;
 import com.project.askethan.R;
 import com.project.askethan.model.Question;
+import com.project.askethan.utilities.FirebaseModule;
 
 public class FeedFragment extends Fragment {
     @Override
@@ -35,8 +36,7 @@ public class FeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         ListView questionList = view.findViewById(R.id.question_listview);
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference dbRef = database.getReference("questions");
+        final DatabaseReference dbRef = FirebaseModule.getQuestionDatabaseReference();
 
         FirebaseListAdapter<Question> firebaseListAdapter = new FirebaseListAdapter<Question>(
                 this.getActivity(),

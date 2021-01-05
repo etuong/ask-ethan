@@ -25,7 +25,6 @@
         <activity android:name=".PasswordActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".AnswerActivity" />
-        <activity android:name=".ProfileActivity" />
     </application>
 
     <supports-screens

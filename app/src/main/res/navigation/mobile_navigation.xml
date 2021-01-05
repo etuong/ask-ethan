@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_feed"
         android:name="com.project.askethan.fragments.FeedFragment"
-        tools:layout="@layout/fragment_ask" />
+        tools:layout="@layout/fragment_feed" />
 
     <fragment
         android:id="@+id/navigation_ask"
@@ -18,11 +18,11 @@
     <fragment
         android:id="@+id/navigation_contact"
         android:name="com.project.askethan.fragments.ContactFragment"
-        tools:layout="@layout/fragment_ask" />
+        tools:layout="@layout/fragment_contact" />
 
     <fragment
-        android:id="@+id/navigation_setting"
-        android:name="com.project.askethan.fragments.AskFragment"
-        tools:layout="@layout/fragment_ask" />
+        android:id="@+id/navigation_profile"
+        android:name="com.project.askethan.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

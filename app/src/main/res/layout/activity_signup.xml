@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/nametxt"
-        android:layout_width="245dp"
+        android:layout_width="300dp"
         android:layout_height="39dp"
         android:layout_margin="8dp"
         android:background="@drawable/dialog_background"
@@ -28,7 +28,7 @@
 
     <EditText
         android:id="@+id/emailtxt"
-        android:layout_width="245dp"
+        android:layout_width="300dp"
         android:layout_height="39dp"
         android:layout_margin="8dp"
         android:background="@drawable/dialog_background"
@@ -47,7 +47,7 @@
 
     <EditText
         android:id="@+id/passwordtxt"
-        android:layout_width="245dp"
+        android:layout_width="300dp"
         android:layout_height="39dp"
         android:layout_margin="8dp"
         android:background="@drawable/dialog_background"
@@ -66,7 +66,7 @@
 
     <EditText
         android:id="@+id/etphone"
-        android:layout_width="245dp"
+        android:layout_width="300dp"
         android:layout_height="39dp"
         android:layout_margin="8dp"
         android:background="@drawable/dialog_background"
@@ -85,7 +85,7 @@
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="258dp"
+        android:layout_width="250dp"
         android:layout_height="39dp"
         android:layout_margin="8dp"
         android:text="@string/conditions"
