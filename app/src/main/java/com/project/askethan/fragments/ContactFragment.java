@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
 
-public class ContactFragment extends Fragment {
+public class ContactFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

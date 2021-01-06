@@ -22,11 +22,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
 import com.project.askethan.model.Question;
 import com.project.askethan.utilities.FirebaseModule;
 
-public class AskFragment extends Fragment {
+public class AskFragment extends BaseFragment {
     private EditText titleEdit, questionEdit;
     private Button btnPost;
 

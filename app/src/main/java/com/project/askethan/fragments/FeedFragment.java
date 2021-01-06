@@ -20,11 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.AnswerActivity;
+import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
 import com.project.askethan.model.Question;
 import com.project.askethan.utilities.FirebaseModule;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

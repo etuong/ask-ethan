@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.utilities.FirebaseModule;
 
-public class AnswerActivity extends AppCompatActivity {
+public class AnswerActivity extends BaseActivity {
     private TextView title, question;
 
     @Override

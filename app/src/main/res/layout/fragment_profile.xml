@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profileImgUser"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15sp"
+            android:layout_marginTop="25sp"
             android:fontFamily="sans-serif-light"
             android:text="Ethan"
             android:textColor="@color/white"
