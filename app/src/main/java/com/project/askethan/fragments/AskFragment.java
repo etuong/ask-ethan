@@ -11,16 +11,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
@@ -62,8 +59,8 @@ public class AskFragment extends BaseFragment {
 
                     Question question = Question.builder()
                             .id((int) newId)
-                            .author(currentUser.getDisplayName())
-                            .email(currentUser.getEmail())
+                            .authorName(currentUser.getDisplayName())
+                            .authorUid(currentUser.getUid())
                             .title(titleEdit.getText().toString())
                             .question(AskFragment.this.questionEdit.getText().toString())
                             .build();

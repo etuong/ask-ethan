@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.utilities.FirebaseModule;
 
 public class AnswerActivity extends BaseActivity {
-    private TextView title, question;
+    private TextView title, question, views;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class AnswerActivity extends BaseActivity {
         final int id = intent.getExtras().getInt("question_id");
         title = findViewById(R.id.title);
         question = findViewById(R.id.question);
+        views = findViewById(R.id.views);
 
         DatabaseReference dbPostRef = FirebaseModule.getQuestionDatabaseReference().child(String.valueOf(id)).getRef();
         dbPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -32,6 +33,7 @@ public class AnswerActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 title.setText(dataSnapshot.child("title").getValue().toString());
                 question.setText(dataSnapshot.child("question").getValue().toString());
+                views.setText(dataSnapshot.child("views").getValue().toString());
             }
 
             @Override

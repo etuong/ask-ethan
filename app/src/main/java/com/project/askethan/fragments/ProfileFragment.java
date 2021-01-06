@@ -21,7 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.AuthCredential;
@@ -34,7 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.askethan.BaseFragment;
 import com.project.askethan.LoginActivity;
@@ -225,12 +223,12 @@ public class ProfileFragment extends BaseFragment {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         String uid = FirebaseModule.getCurrentUser().getUid();
-        final StorageReference reference = FirebaseStorage.getInstance().getReference()
+        final StorageReference profileImagesStorageRef = FirebaseModule.getStorageReference()
                 .child("profileImages")
                 .child(uid + ".jpeg");
 
-        reference.putBytes(baos.toByteArray())
-                .addOnSuccessListener(taskSnapshot -> reference.getDownloadUrl()
+        profileImagesStorageRef.putBytes(baos.toByteArray())
+                .addOnSuccessListener(taskSnapshot -> profileImagesStorageRef.getDownloadUrl()
                         .addOnSuccessListener(uri -> {
                             setUserProfileUrl(uri);
                         }));

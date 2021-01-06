@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class FirebaseModule {
     public static String USER_TABLE_KEY = "users";
@@ -27,5 +29,9 @@ public class FirebaseModule {
 
     public static void signOut() {
         getAuth().signOut();
+    }
+
+    public static StorageReference getStorageReference() {
+        return FirebaseStorage.getInstance().getReference();
     }
 }

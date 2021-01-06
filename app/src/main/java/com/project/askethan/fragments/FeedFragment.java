@@ -11,21 +11,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.project.askethan.AnswerActivity;
 import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
 import com.project.askethan.model.Question;
 import com.project.askethan.utilities.FirebaseModule;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FeedFragment extends BaseFragment {
+    private static final long ONE_MEGABYTE = 1024 * 1024;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,27 +53,41 @@ public class FeedFragment extends BaseFragment {
             protected void populateView(View v, Question model, int position) {
                 TextView questionTitle = v.findViewById(R.id.question_title);
                 TextView questionAuthor = v.findViewById(R.id.question_author);
-                TextView questionViews = v.findViewById(R.id.views);
+                CircleImageView profileImageView = v.findViewById(R.id.questionImageView);
 
                 questionTitle.setText(model.getTitle());
-                questionAuthor.setText("By " + model.getAuthor());
-                questionViews.setText(String.valueOf(model.getViews()));
+                questionAuthor.setText("By " + model.getAuthorName());
+
+                if (model.getAuthorUid() != null) {
+                    final StorageReference profileImagesStorageRef = FirebaseModule.getStorageReference()
+                            .child("profileImages")
+                            .child(model.getAuthorUid() + ".jpeg");
+                    profileImagesStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(taskSnapshot -> profileImagesStorageRef.getDownloadUrl()
+                            .addOnSuccessListener(uri -> {
+                                if (uri != null) {
+                                    Glide.with(FeedFragment.this)
+                                            .load(uri)
+                                            .into(profileImageView);
+                                }
+                            }));
+                }
             }
         };
 
         questionList.setAdapter(firebaseListAdapter);
         questionList.setOnItemClickListener((adapterView, view1, pos, id) -> {
-            final DatabaseReference dbRef1 = dbRef.child(String.valueOf(pos));
+            Question selectedQuestion = (Question) adapterView.getItemAtPosition(pos);
+            final DatabaseReference questionDbRef = dbRef.child(String.valueOf(selectedQuestion.getId()));
 
-            dbRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+            questionDbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Intent viewQuestion = new Intent(getActivity(), AnswerActivity.class);
-                    viewQuestion.putExtra("question_id", Integer.parseInt(dataSnapshot.child("id").getValue().toString()));
-                    startActivity(viewQuestion);
+                    int viewCount = selectedQuestion.getViews();
+                    questionDbRef.child("views").setValue(viewCount + 1);
 
-                    int viewCount = Integer.parseInt(dataSnapshot.child("views").getValue().toString());
-                    dbRef1.child("views").setValue(viewCount + 1);
+                    Intent viewQuestion = new Intent(getActivity(), AnswerActivity.class);
+                    viewQuestion.putExtra("question_id", selectedQuestion.getId());
+                    startActivity(viewQuestion);
                 }
 
                 @Override
@@ -82,5 +100,4 @@ public class FeedFragment extends BaseFragment {
 
         return view;
     }
-
 }

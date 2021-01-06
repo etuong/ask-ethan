@@ -15,7 +15,7 @@ public class Question {
     private int id;
     private int views;
     private String title;
-    private String email;
-    private String author;
+    private String authorUid;
+    private String authorName;
     private String question;
 }
