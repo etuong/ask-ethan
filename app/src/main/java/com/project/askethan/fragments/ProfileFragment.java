@@ -199,7 +199,7 @@ public class ProfileFragment extends BaseFragment {
                             matrix.postRotate(getOrientation(this.getActivity().getApplicationContext(), imageUri));
                             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                         }
-                        bitmap = Bitmap.createScaledBitmap(bitmap, 450, 600, true);
+                        bitmap = Bitmap.createScaledBitmap(bitmap, 306, 408, true);
                     }
                     profileImageView.setImageBitmap(bitmap);
                     handleImageUpload(bitmap);

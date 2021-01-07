@@ -22,7 +22,7 @@ public class AnswerActivity extends BaseActivity {
         setContentView(R.layout.activity_answer);
 
         Intent intent = getIntent();
-        final int id = intent.getExtras().getInt("question_id");
+        final long id = intent.getExtras().getLong("question_id");
         title = findViewById(R.id.title);
         question = findViewById(R.id.question);
         views = findViewById(R.id.views);

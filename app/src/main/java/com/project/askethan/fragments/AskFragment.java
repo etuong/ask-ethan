@@ -1,6 +1,7 @@
 package com.project.askethan.fragments;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -23,6 +25,9 @@ import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
 import com.project.askethan.model.Question;
 import com.project.askethan.utilities.FirebaseModule;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class AskFragment extends BaseFragment {
     private EditText titleEdit, questionEdit;
@@ -51,14 +56,16 @@ public class AskFragment extends BaseFragment {
             DatabaseReference dbRef = FirebaseModule.getQuestionDatabaseReference();
 
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    long newId = dataSnapshot.getChildrenCount();
-
                     FirebaseUser currentUser = FirebaseModule.getCurrentUser();
+                    ZoneId zoneId = ZoneId.systemDefault();
+                    long s = LocalDateTime.now().atZone(zoneId).toEpochSecond();
+                    long newId = -1 * s;
 
                     Question question = Question.builder()
-                            .id((int) newId)
+                            .id(newId)
                             .authorName(currentUser.getDisplayName())
                             .authorUid(currentUser.getUid())
                             .title(titleEdit.getText().toString())

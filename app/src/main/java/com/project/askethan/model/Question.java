@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Question {
-    private int id;
+    private long id;
     private int views;
     private String title;
     private String authorUid;
