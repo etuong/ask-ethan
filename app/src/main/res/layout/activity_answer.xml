@@ -46,6 +46,7 @@
             android:text="Title of the Question"
             android:textSize="20sp"
             android:textColor="@color/dark_blue"
+            android:textStyle="bold"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/linearLayout"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +62,7 @@
         android:layout_marginTop="20dp"
         android:textStyle="italic"
         android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

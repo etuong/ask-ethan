@@ -32,4 +32,7 @@
     <string name="nav_question">Ask</string>
     <string name="nav_contact">Contact Ethan</string>
     <string name="nav_settings">Settings</string>
+
+    <string name="about_me">At a young age, Ethan had a candid characteristic to break things apart and put them back together and this attitude brought out this true passion in engineering. He is perhaps best known for his natural curiosity, willingness and dedication for learning, and pragmatic approach on solving problems.</string>
+    <string name="about_me2">With no hesitation and fear, Ethan stepped onto new territories and allowed his experiences to diversify his view of the world. He continues to believe that a worldly experience can lead to success. For Ethan, knowledge is power and with power, comes the ability to positively influence people’s lives.</string>
 </resources>

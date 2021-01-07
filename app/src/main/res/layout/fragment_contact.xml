@@ -1,49 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ContactFragment"
-    android:paddingBottom="?attr/actionBarSize">
+    android:padding="20dp"
+    android:paddingBottom="?attr/actionBarSize"
+    tools:context=".fragments.ContactFragment">
 
     <LinearLayout
+        android:id="@+id/profileIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/profile_pic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ethan Uong"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Software Engineer" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/aboutme_divider"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/profileIntro"
+        android:layout_marginTop="15dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/aboutme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aboutme_divider"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/heading_home"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contact"
-            android:textSize="24sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            />
-<!--
-        <ListView
-            android:id="@+id/question_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="#d1d2d1"
-            android:dividerHeight="2dp">
-
-        </ListView>
+            android:text="About"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:text="@string/home_heading"
-            android:textSize="28sp" />
-     />-->
+            android:layout_marginTop="5dp"
+            android:lineHeight="20dp"
+            android:text="@string/about_me"
+            android:textSize="14sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lineHeight="20dp"
+            android:text="@string/about_me2"
+            android:textSize="14sp" />
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/contactFirstRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aboutme"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:id="@+id/contactEmail"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/all_border"
+            android:drawableLeft="@drawable/ic_action_black_email"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="etuong@gmail.com"
+            android:textColor="@color/dark_blue"
+            android:textSize="12dp" />
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:id="@+id/contactPhone"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/all_border"
+            android:drawableLeft="@drawable/ic_action_black_phone"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="‪(412) 397-8149‬"
+            android:textColor="@color/dark_blue"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contactSecondRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contactFirstRow"
+        android:layout_weight="1">
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:id="@+id/contactCode"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/all_border"
+            android:drawableLeft="@drawable/ic_code"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="github.com/etuong"
+            android:textColor="@color/dark_blue"
+            android:textSize="12dp" />
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:id="@+id/contactWebsite"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/all_border"
+            android:drawableLeft="@drawable/ic_world"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="www.ethanuong.com‬"
+            android:textColor="@color/dark_blue"
+            android:textSize="12dp" />
+    </LinearLayout>
+</RelativeLayout>

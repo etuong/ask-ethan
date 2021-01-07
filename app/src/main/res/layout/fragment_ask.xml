@@ -40,6 +40,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:backgroundTint="@color/other_blue"
                 android:hint="@string/ask_title_hint"
                 android:inputType="textPersonName"
                 android:text="" />
@@ -60,10 +61,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:ems="10"
+            android:padding="8dp"
             android:gravity="start|top"
+            android:background="@drawable/question_box"
             android:hint="@string/ask_question_hint"
             android:inputType="textMultiLine"
-            android:minHeight="75dp" />
+            android:minHeight="100dp" />
 
         <Button
             android:id="@+id/btnPostNewQuestion"
@@ -73,7 +76,7 @@
             android:background="@drawable/rounded_corner_button"
             android:text="Ask"
             android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 </FrameLayout>

@@ -39,6 +39,7 @@ public class FeedFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+
         ListView questionList = view.findViewById(R.id.question_listview);
 
         final DatabaseReference dbRef = FirebaseModule.getQuestionDatabaseReference();
@@ -65,7 +66,7 @@ public class FeedFragment extends BaseFragment {
                     profileImagesStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(taskSnapshot -> profileImagesStorageRef.getDownloadUrl()
                             .addOnSuccessListener(uri -> {
                                 if (uri != null) {
-                                    Glide.with(FeedFragment.this)
+                                    Glide.with(FeedFragment.this.getActivity())
                                             .load(uri)
                                             .into(profileImageView);
                                 }
@@ -95,7 +96,6 @@ public class FeedFragment extends BaseFragment {
 
                 }
             });
-
         });
 
         return view;
