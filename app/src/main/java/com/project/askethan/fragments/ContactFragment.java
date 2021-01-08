@@ -132,7 +132,7 @@ public class ContactFragment extends BaseFragment {
 
     private void callPhone(View view) {
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
-        callIntent.setData(Uri.parse("tel:16264665656"));
+        callIntent.setData(Uri.parse("tel:14123978149"));
         startActivity(callIntent);
     }
 

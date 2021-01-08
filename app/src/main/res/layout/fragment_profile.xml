@@ -4,8 +4,8 @@
     android:id="@+id/contact_scrollview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingBottom="?attr/actionBarSize"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:paddingBottom="?attr/actionBarSize">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -150,62 +150,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/profileChangePassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center">
+                android:layout_height="50dp"
+                android:text="Change Password"
+                android:textColor="#fff"
+                android:textSize="10dp" />
 
-                <Button
-                    android:id="@+id/profileChangePassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Change Password"
-                    android:textColor="#fff"
-                    android:textSize="10dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <Button
+                android:id="@+id/profileSignOut"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:gravity="center">
+                android:text="Sign Out"
+                android:textColor="#fff"
+                android:textSize="10dp" />
 
-                <Button
-                    android:id="@+id/profileSignOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Sign Out"
-                    android:textColor="#fff"
-                    android:textSize="10dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <Button
+                android:id="@+id/profileDeleteAccount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/profileDeleteAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Delete Account"
-                    android:textColor="#fff"
-                    android:textSize="10dp" />
-            </RelativeLayout>
+                android:layout_height="50dp"
+                android:text="Delete Account"
+                android:textColor="#fff"
+                android:textSize="10dp" />
 
         </LinearLayout>
 

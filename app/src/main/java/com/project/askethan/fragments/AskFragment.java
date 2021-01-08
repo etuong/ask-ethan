@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +32,7 @@ import java.time.ZoneId;
 
 public class AskFragment extends BaseFragment {
     private EditText titleEdit, questionEdit;
-    private Button btnPost;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,10 +40,9 @@ public class AskFragment extends BaseFragment {
 
         titleEdit = view.findViewById(R.id.questionTitle);
         questionEdit = view.findViewById(R.id.question);
-        btnPost = view.findViewById(R.id.btnPostNewQuestion);
+        fab = view.findViewById(R.id.fab);
 
-        btnPost.setOnClickListener(view1 -> {
-
+        fab.setOnClickListener(view1 -> {
             if (TextUtils.isEmpty(titleEdit.getText())) {
                 Toast.makeText(getActivity().getApplicationContext(), "Title field cannot be left empty!", Toast.LENGTH_SHORT).show();
                 return;
