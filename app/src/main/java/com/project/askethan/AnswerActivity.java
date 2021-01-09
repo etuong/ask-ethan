@@ -38,7 +38,7 @@ public class AnswerActivity extends BaseActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                System.out.println("The read failed: " + databaseError.getCode());
             }
         });
     }

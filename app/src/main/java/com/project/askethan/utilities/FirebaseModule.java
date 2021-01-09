@@ -10,6 +10,7 @@ import com.google.firebase.storage.StorageReference;
 public class FirebaseModule {
     public static String USER_TABLE_KEY = "users";
     public static String QUESTION_TABLE_KEY = "questions";
+    public static String LOCATION_TABLE_KEY = "locations";
 
     public static FirebaseAuth getAuth() {
         return FirebaseAuth.getInstance();
@@ -25,6 +26,10 @@ public class FirebaseModule {
 
     public static DatabaseReference getQuestionDatabaseReference() {
         return FirebaseDatabase.getInstance().getReference(QUESTION_TABLE_KEY);
+    }
+
+    public static DatabaseReference getLocationDatabaseReference() {
+        return FirebaseDatabase.getInstance().getReference(LOCATION_TABLE_KEY);
     }
 
     public static void signOut() {

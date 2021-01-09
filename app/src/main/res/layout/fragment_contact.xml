@@ -174,17 +174,26 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/map_divider"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Where is Ethan right now!?"
+            android:text="Where is Ethan right now in real time!?"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/map_text_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/map_text"
+            android:layout_marginBottom="10dp"
+            android:text="Answer:"
+            android:textSize="16sp"
+            android:textStyle="italic" />
 
         <fragment
             android:id="@+id/map"
             android:name="com.project.askethan.utilities.CustomSupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_below="@+id/map_text" />
+            android:layout_below="@+id/map_text_location" />
 
     </RelativeLayout>
 </ScrollView>

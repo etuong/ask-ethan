@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,16 +26,27 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.BaseFragment;
 import com.project.askethan.R;
+import com.project.askethan.utilities.AuthorHelper;
 import com.project.askethan.utilities.CustomSupportMapFragment;
+import com.project.askethan.utilities.FirebaseModule;
 
 import java.io.IOException;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.Context.LOCATION_SERVICE;
+
 public class ContactFragment extends BaseFragment {
     private GoogleMap googleMap;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private TextView locationTextView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +57,8 @@ public class ContactFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
+
+        locationTextView = view.findViewById(R.id.map_text_location);
 
         TextView contactEmail = view.findViewById(R.id.contactEmail);
         contactEmail.setOnClickListener(this::sendEmail);
@@ -60,8 +76,15 @@ public class ContactFragment extends BaseFragment {
                 openWebsite("https://www.ethanuong.com/")
         );
 
+        if (AuthorHelper.isOwner()) {
+            CircleImageView profilePic = view.findViewById(R.id.profileImageView);
+            profilePic.setOnClickListener(this::requestMyLocation);
+        }
+
         CustomSupportMapFragment mapFragment = (CustomSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(gMap -> {
+        mapFragment.getMapAsync(gMap ->
+
+        {
             ScrollView scrollView = view.findViewById(R.id.contact_scrollview);
             mapFragment.setListener(() -> scrollView.requestDisallowInterceptTouchEvent(true));
             googleMap = gMap;
@@ -81,30 +104,71 @@ public class ContactFragment extends BaseFragment {
     }
 
     private void getEthanLocation() {
-        double latitude = 34.085285;
-        double longitude = -117.960899;
-        Geocoder geocoder = new Geocoder(this.getContext());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            String result = addresses.get(0).getLocality() + " : ";
-            result += addresses.get(0).getCountryName();
-            LatLng latLng = new LatLng(latitude, longitude);
-            googleMap.addMarker(new MarkerOptions().position(latLng).title(result));
-            googleMap.setMaxZoomPreference(20);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DatabaseReference dbLocRef = FirebaseModule.getLocationDatabaseReference();
+        dbLocRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                double latitude = (double) dataSnapshot.child("latitude").getValue();
+                double longitude = (double) dataSnapshot.child("longitude").getValue();
+                Geocoder geocoder = new Geocoder(ContactFragment.this.getContext());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    Address address = addresses.get(0);
+                    String result = address.getAddressLine(0);
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    locationTextView.setText(result);
+                    googleMap.addMarker(new MarkerOptions().position(latLng).title(result));
+                    googleMap.setMaxZoomPreference(20);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
     private void getMyLocation() {
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            return;
+                == PackageManager.PERMISSION_GRANTED) {
+
+            LocationManager locationManager = (LocationManager) this.getActivity().getSystemService(LOCATION_SERVICE);
+
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    FirebaseModule.getLocationDatabaseReference().child("latitude").setValue(latitude);
+                    FirebaseModule.getLocationDatabaseReference().child("longitude").setValue(longitude);
+                    locationManager.removeUpdates(this);
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
 
-    private void requestMyLocation() {
+    private void requestMyLocation(View view) {
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
