@@ -11,6 +11,7 @@ public class FirebaseModule {
     public static String USER_TABLE_KEY = "users";
     public static String QUESTION_TABLE_KEY = "questions";
     public static String LOCATION_TABLE_KEY = "locations";
+    public static String MOOD_TABLE_KEY = "moods";
 
     public static FirebaseAuth getAuth() {
         return FirebaseAuth.getInstance();
@@ -30,6 +31,10 @@ public class FirebaseModule {
 
     public static DatabaseReference getLocationDatabaseReference() {
         return FirebaseDatabase.getInstance().getReference(LOCATION_TABLE_KEY);
+    }
+
+    public static DatabaseReference getMoodDatabaseReference() {
+        return FirebaseDatabase.getInstance().getReference(MOOD_TABLE_KEY);
     }
 
     public static void signOut() {

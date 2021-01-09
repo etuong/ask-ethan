@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +39,7 @@ import com.project.askethan.utilities.CustomSupportMapFragment;
 import com.project.askethan.utilities.FirebaseModule;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,6 +50,7 @@ public class ContactFragment extends BaseFragment {
     private GoogleMap googleMap;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private TextView locationTextView;
+    private List<ImageView> moods;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,15 +80,40 @@ public class ContactFragment extends BaseFragment {
                 openWebsite("https://www.ethanuong.com/")
         );
 
+        moods = new ArrayList<>();
+        moods.add(view.findViewById(R.id.mood1));
+        moods.add(view.findViewById(R.id.mood2));
+        moods.add(view.findViewById(R.id.mood3));
+
+        DatabaseReference dbMoodRef = FirebaseModule.getMoodDatabaseReference();
+        dbMoodRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String status = dataSnapshot.child("status").getValue().toString();
+                if (isAdded()) {
+                    for (ImageView imageView : moods) {
+                        if (imageView.getTag().equals(status)) {
+                            imageView.setColorFilter(ContextCompat.getColor(ContactFragment.this.getContext(), R.color.red), android.graphics.PorterDuff.Mode.MULTIPLY);
+                        } else {
+                            imageView.clearColorFilter();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
         if (AuthorHelper.isOwner()) {
             CircleImageView profilePic = view.findViewById(R.id.profileImageView);
             profilePic.setOnClickListener(this::requestMyLocation);
         }
 
         CustomSupportMapFragment mapFragment = (CustomSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(gMap ->
-
-        {
+        mapFragment.getMapAsync(gMap -> {
             ScrollView scrollView = view.findViewById(R.id.contact_scrollview);
             mapFragment.setListener(() -> scrollView.requestDisallowInterceptTouchEvent(true));
             googleMap = gMap;

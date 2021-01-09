@@ -4,8 +4,9 @@
     android:id="@+id/contact_scrollview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:fillViewport="true"
     android:paddingBottom="?attr/actionBarSize"
-    android:fillViewport="true">
+    tools:context=".fragments.ContactFragment">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -161,10 +162,60 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/map_divider"
+            android:id="@+id/mood_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/contactSecondRow"
+            android:layout_marginTop="20dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/mood_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mood_divider"
+            android:layout_marginTop="10dp"
+            android:text="How is Ethan feeling at the moment?"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/mood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mood_text"
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:id="@+id/mood1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="happy"
+                android:src="@drawable/ic_very_satisfied" />
+
+            <ImageView
+                android:id="@+id/mood2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="ok"
+                android:src="@drawable/ic_satisfied" />
+
+            <ImageView
+                android:id="@+id/mood3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="sad"
+                android:src="@drawable/ic_dissatisfied" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/map_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/mood"
             android:layout_marginTop="20dp"
             android:background="@color/black" />
 

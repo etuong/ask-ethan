@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,8 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.askethan.utilities.FirebaseModule;
 
 public class AnswerActivity extends BaseActivity {
-    private TextView title, question, views;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +20,11 @@ public class AnswerActivity extends BaseActivity {
 
         Intent intent = getIntent();
         final long id = intent.getExtras().getLong("question_id");
-        title = findViewById(R.id.title);
-        question = findViewById(R.id.question);
-        views = findViewById(R.id.views);
+        TextView title = findViewById(R.id.title);
+        TextView question = findViewById(R.id.question);
+        TextView views = findViewById(R.id.views);
+        TextView responseTitle = findViewById(R.id.response_title);
+        TextView response = findViewById(R.id.response);
 
         DatabaseReference dbPostRef = FirebaseModule.getQuestionDatabaseReference().child(String.valueOf(id)).getRef();
         dbPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -34,6 +33,12 @@ public class AnswerActivity extends BaseActivity {
                 title.setText(dataSnapshot.child("title").getValue().toString());
                 question.setText(dataSnapshot.child("question").getValue().toString());
                 views.setText(dataSnapshot.child("views").getValue().toString());
+                DataSnapshot responseSnapshot = dataSnapshot.child("response");
+                if (responseSnapshot != null && responseSnapshot.getValue() != null) {
+                    response.setText(responseSnapshot.getValue().toString());
+                } else {
+                    responseTitle.setText("** Ethan has yet to respond");
+                }
             }
 
             @Override

@@ -11,12 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Question {
-    private long id;
-    private int views;
-    private String title;
-    private String authorUid;
-    private String authorName;
-    private String question;
-    private String response;
+public class AuthorLocation {
+    private double latitude;
+    private double longitude;
 }
