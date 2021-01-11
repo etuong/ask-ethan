@@ -61,6 +61,7 @@ public class AskFragment extends BaseFragment {
                     .authorUid(currentUser.getUid())
                     .title(titleEdit.getText().toString())
                     .question(AskFragment.this.questionEdit.getText().toString())
+                    .response("")
                     .build();
 
             DatabaseReference ref = dbRef.child(Long.toString(newId));
