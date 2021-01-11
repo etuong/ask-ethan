@@ -24,7 +24,7 @@ import com.project.askethan.utilities.FirebaseModule;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedFragment extends BaseFragment {
-    private static final long ONE_MEGABYTE = 1024 * 1024;
+    private ListView questionList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +35,13 @@ public class FeedFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        this.questionList = view.findViewById(R.id.question_listview);
+        return view;
+    }
 
-        ListView questionList = view.findViewById(R.id.question_listview);
+    @Override
+    public void onStart() {
+        super.onStart();
 
         final StorageReference profileImagesStorageRef = FirebaseModule.getStorageReference()
                 .child("profileImages");
@@ -60,14 +65,14 @@ public class FeedFragment extends BaseFragment {
 
                 if (isAdded() && model.getAuthorUid() != null) {
                     final StorageReference profileImageStorageRef = profileImagesStorageRef.child(model.getAuthorUid() + ".jpeg");
-                    profileImageStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(taskSnapshot -> profileImageStorageRef.getDownloadUrl()
+                    profileImageStorageRef.getDownloadUrl()
                             .addOnSuccessListener(uri -> {
                                 if (uri != null && FeedFragment.this.getActivity() != null) {
                                     Glide.with(FeedFragment.this.getActivity())
                                             .load(uri)
                                             .into(profileImageView);
                                 }
-                            }));
+                            });
                 }
             }
         };
@@ -83,7 +88,5 @@ public class FeedFragment extends BaseFragment {
             viewQuestion.putExtra("question_id", selectedQuestion.getId());
             startActivity(viewQuestion);
         });
-
-        return view;
     }
 }

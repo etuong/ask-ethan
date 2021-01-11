@@ -80,10 +80,14 @@ public class ContactFragment extends BaseFragment {
                 openWebsite("https://www.ethanuong.com/")
         );
 
+        ImageView mood1 = view.findViewById(R.id.mood1);
+        ImageView mood3 = view.findViewById(R.id.mood3);
+        ImageView mood2 = view.findViewById(R.id.mood2);
+
         moods = new ArrayList<>();
-        moods.add(view.findViewById(R.id.mood1));
-        moods.add(view.findViewById(R.id.mood2));
-        moods.add(view.findViewById(R.id.mood3));
+        moods.add(mood1);
+        moods.add(mood2);
+        moods.add(mood3);
 
         DatabaseReference dbMoodRef = FirebaseModule.getMoodDatabaseReference();
         dbMoodRef.addValueEventListener(new ValueEventListener() {
@@ -110,16 +114,22 @@ public class ContactFragment extends BaseFragment {
         if (AuthorHelper.isOwner()) {
             CircleImageView profilePic = view.findViewById(R.id.profileImageView);
             profilePic.setOnClickListener(this::requestMyLocation);
+
+            mood1.setOnClickListener(v -> setMood(v.getTag().toString()));
+            mood2.setOnClickListener(v -> setMood(v.getTag().toString()));
+            mood3.setOnClickListener(v -> setMood(v.getTag().toString()));
         }
 
         CustomSupportMapFragment mapFragment = (CustomSupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(gMap -> {
-            ScrollView scrollView = view.findViewById(R.id.contact_scrollview);
-            mapFragment.setListener(() -> scrollView.requestDisallowInterceptTouchEvent(true));
-            googleMap = gMap;
-            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            googleMap.getUiSettings().setZoomControlsEnabled(true);
-            getEthanLocation();
+            if (isAdded()) {
+                ScrollView scrollView = view.findViewById(R.id.contact_scrollview);
+                mapFragment.setListener(() -> scrollView.requestDisallowInterceptTouchEvent(true));
+                googleMap = gMap;
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                getEthanLocation();
+            }
         });
 
         return view;
@@ -130,6 +140,11 @@ public class ContactFragment extends BaseFragment {
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             getMyLocation();
         }
+    }
+
+    private void setMood(String mood) {
+        DatabaseReference dbMoodRef = FirebaseModule.getMoodDatabaseReference();
+        dbMoodRef.child("status").setValue(mood);
     }
 
     private void getEthanLocation() {
@@ -146,6 +161,7 @@ public class ContactFragment extends BaseFragment {
                     String result = address.getAddressLine(0);
                     LatLng latLng = new LatLng(latitude, longitude);
                     locationTextView.setText(result);
+                    googleMap.clear();
                     googleMap.addMarker(new MarkerOptions().position(latLng).title(result));
                     googleMap.setMaxZoomPreference(20);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
